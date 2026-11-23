@@ -34,13 +34,20 @@ body {
 h1, h2, p, dl, dd { margin: 0; }
 h2 { font-size: clamp(17px, 1.55vw, 30px); color: var(--gold); }
 .masthead { position: relative; display: grid; justify-items: center; align-items: center; }
+.masthead h1 {
+  position: relative;
+  width: clamp(135px, min(19vw, 29vh), 310px);
+  aspect-ratio: 512 / 445;
+  overflow: hidden;
+  mix-blend-mode: multiply;
+}
 .logo {
-  display: block;
-  width: clamp(112px, 14vh, 175px);
+  position: absolute;
+  top: -7.2%;
+  left: -12.5%;
+  width: 125%;
   height: auto;
-  border: 1px solid var(--edge);
-  border-radius: 16px;
-  box-shadow: 0 5px 24px #0a122447;
+  filter: brightness(1.12) contrast(1.45);
 }
 .panel {
   min-width: 0;
