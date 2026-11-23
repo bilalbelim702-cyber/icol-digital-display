@@ -79,8 +79,50 @@ function phaseForHour(hour) {
   return "night";
 }
 
+const reminderDateFormat = new Intl.DateTimeFormat("en-US", {
+  timeZone: zone, year: "numeric", month: "numeric", day: "numeric"
+});
+// Short excerpts with an English rendering and a link to the full text.
+const reminders = [
+  ["2:43","وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ","Establish prayer and give zakah."],
+  ["94:5","فَإِنَّ مَعَ الْعُسْرِ يُسْرًا","Indeed, with hardship comes ease."],
+  ["1","إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ","Actions are judged by intentions."],
+  ["2:153","اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ","Seek help through patience and prayer."],
+  ["13:28","أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ","In the remembrance of Allah, hearts find peace."],
+  ["6021","كُلُّ مَعْرُوفٍ صَدَقَةٌ","Every good deed is charity."],
+  ["20:114","وَقُلْ رَبِّ زِدْنِي عِلْمًا","And say, ‘My Lord, increase me in knowledge.’"],
+  ["2:286","لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا","Allah does not burden a soul beyond its capacity."],
+  ["14:7","لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ","If you are grateful, I will give you more."],
+  ["6018","فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ","Speak what is good or remain silent."],
+  ["3:159","إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ","Allah loves those who put their trust in Him."],
+  ["16:90","إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ","Allah commands justice and excellence in doing good."],
+  ["6464","وَأَنَّ أَحَبَّ الأَعْمَالِ أَدْوَمُهَا إِلَى اللَّهِ وَإِنْ قَلَّ","The deeds most beloved to Allah are those done consistently, even if small."],
+  ["39:53","لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ","Do not despair of Allah’s mercy."]
+];
+const reminderStart = Date.UTC(2026, 10, 23);
+let displayedReminderDay;
+
+function updateReminder(now) {
+  const parts = reminderDateFormat.formatToParts(now);
+  const part = (type) => Number(parts.find((value) => value.type === type).value);
+  const day = Math.round((Date.UTC(part("year"), part("month") - 1, part("day")) - reminderStart) / 86400000);
+  if (day === displayedReminderDay) return;
+  displayedReminderDay = day;
+
+  const index = ((day % reminders.length) + reminders.length) % reminders.length;
+  const [reference, arabic, english] = reminders[index];
+  const isQuran = reference.includes(":");
+  byId("reminder-title").textContent = isQuran ? "Qur’anic Reminder" : "Hadith Reminder";
+  byId("reminder-arabic").textContent = arabic;
+  byId("reminder-english").textContent = "“" + english + "”";
+  const source = byId("reminder-source");
+  source.textContent = isQuran ? "Qur’an " + reference : "Sahih al-Bukhari " + reference;
+  source.href = isQuran ? "https://quran.com/" + reference.replace(":", "/") : "https://sunnah.com/bukhari:" + reference;
+}
+
 function updateDisplay() {
   const now = new Date();
+  updateReminder(now);
   const parts = clockFormat.formatToParts(now);
   const timePart = (type) => Number(parts.find((part) => part.type === type).value);
   const hour = timePart("hour");
@@ -91,6 +133,7 @@ function updateDisplay() {
 
   byId("clock").textContent = (hour % 12 || 12) + ":" + twoDigits(minute);
   byId("clock").dateTime = now.toISOString();
+  byId("clock-seconds").textContent = ":" + twoDigits(second);
   byId("period").textContent = hour < 12 ? "AM" : "PM";
   byId("date").textContent = dateFormat.format(now);
   byId("hijri-date").textContent = hijriFormat.format(now);
@@ -148,4 +191,3 @@ async function loadSchedule() {
 updateDisplay();
 setInterval(updateDisplay, 1000);
 loadSchedule();
-

@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#0d233a">
   <title>ICOL | Salah Display</title>
   <link rel="icon" href="icol-logo.jpg">
-  <link rel="stylesheet" href="courtyard.css?v=3">
-  <script src="courtyard.js" defer></script>
+  <link rel="stylesheet" href="courtyard.css?v=4">
+  <script src="courtyard.js?v=2" defer></script>
 </head>
 <body>
   <main class="display">
@@ -22,7 +22,7 @@
     <div class="dashboard">
       <section class="time-panel panel" aria-label="Local time and next Iqamah">
         <h2>Current time</h2>
-        <div class="clock"><time id="clock">--:--</time><span id="period"></span></div>
+        <div class="clock"><time id="clock">--:--</time><span id="clock-seconds" aria-hidden="true"></span><span id="period"></span></div>
         <div class="next">
           <h2>Next Iqamah</h2>
           <p id="next-prayer">Schedule pending</p>
@@ -57,8 +57,8 @@
     <section class="reminder panel" aria-labelledby="reminder-title">
       <h2 id="reminder-title">Qur’anic Reminder</h2>
       <div>
-        <p class="arabic" lang="ar" dir="rtl">وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ</p>
-        <p>“And establish prayer and give zakah.” <cite>Qur’an 2:43</cite></p>
+        <p id="reminder-arabic" class="arabic" lang="ar" dir="rtl">وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ</p>
+        <p><span id="reminder-english">“And establish prayer and give zakah.”</span> <cite><a id="reminder-source" href="https://quran.com/2/43">Qur’an 2:43</a></cite></p>
       </div>
     </section>
   </main>

@@ -37,18 +37,18 @@ h2 { font-size: clamp(17px, 1.55vw, 30px); color: var(--gold); }
 .masthead { position: relative; display: grid; justify-items: center; align-items: center; }
 .masthead h1 {
   position: relative;
-  width: clamp(135px, min(19vw, 29vh), 310px);
-  aspect-ratio: 512 / 445;
+  width: clamp(135px, min(24vw, 29vh), 340px);
+  aspect-ratio: 520 / 489;
   overflow: hidden;
   mix-blend-mode: multiply;
 }
 .logo {
   position: absolute;
-  top: -7.2%;
-  left: -12.5%;
-  width: 125%;
+  top: -6.54%;
+  left: -11.54%;
+  width: 123.08%;
   height: auto;
-  filter: brightness(1.12) contrast(1.45);
+  filter: brightness(1.08) contrast(1.2);
 }
 .panel {
   min-width: 0;
@@ -164,3 +164,5 @@ cite { color: var(--gold); font-size: .86em; font-style: normal; white-space: no
   .reminder { flex-direction: column; gap: .3em; }
   .reminder h2 { max-width: none; border-right: 0; padding-right: 0; }
 }
+cite a { color: inherit; text-underline-offset: .2em; }
+#clock-seconds { margin-left: -.23em; color: var(--gold); font-size: .56em; }
