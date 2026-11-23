@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#132c25">
+  <title>ICOL | Salah Display</title>
+  <link rel="icon" href="icol-logo.jpg">
+  <link rel="stylesheet" href="display.css">
+  <script src="display.js" defer></script>
+</head>
+<body>
+  <main class="display">
+    <header class="masthead">
+      <img class="logo" src="icol-logo.jpg" alt="Islamic Center of Lakeland">
+      <div class="identity">
+        <p>Islamic Center of Lakeland</p>
+        <h1>Salah Display</h1>
+      </div>
+    </header>
+    <section class="hero" aria-label="Local time and next prayer">
+      <div>
+        <p id="date" class="eyebrow">Lakeland, Florida</p>
+        <div class="clock"><time id="clock">--:--</time><span id="period"></span></div>
+      </div>
+      <div class="next">
+        <p class="eyebrow">Next Iqamah</p>
+        <p id="next-prayer">Schedule pending</p>
+        <p id="countdown"></p>
+      </div>
+    </section>
+    <section aria-labelledby="schedule-title">
+      <div class="section-heading">
+        <h2 id="schedule-title">Prayer schedule</h2>
+        <p id="schedule-status" role="status">Loading schedule…</p>
+      </div>
+      <div class="prayers" id="prayers"></div>
+    </section>
+    <section class="announcements" aria-labelledby="announcement-title">
+      <h2 id="announcement-title">Announcements</h2>
+      <p id="announcement">No announcements at this time.</p>
+    </section>
+  </main>
+</body>
+</html>

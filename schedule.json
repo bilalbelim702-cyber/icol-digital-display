@@ -1,0 +1,10 @@
+{
+  "prayers": {
+    "Fajr": { "adhan": "", "iqamah": "" },
+    "Dhuhr": { "adhan": "", "iqamah": "" },
+    "Asr": { "adhan": "", "iqamah": "" },
+    "Maghrib": { "adhan": "", "iqamah": "" },
+    "Isha": { "adhan": "", "iqamah": "" }
+  },
+  "announcements": []
+}

@@ -1,1 +1,20 @@
-# icol-digital-display
+# ICOL Digital Salah Display
+
+TV display for the Islamic Center of Lakeland. The clock and background use Eastern time in Lakeland, Florida. The display shows the five daily prayers, the next scheduled Iqamah, and announcements.
+
+## Update prayer times and announcements
+
+1. Open `schedule.json` in this repository on GitHub and choose the pencil icon.
+2. Enter the approved Adhan and Iqamah times in 24-hour `HH:MM` format. For example, `"18:05"` appears as 6:05 PM. Use `""` for a time you want to leave blank. The schedule repeats daily until you update it.
+3. Add announcements as quoted strings in the `announcements` list, separated by commas. The display rotates through them every 15 seconds.
+4. Commit the changes. Once GitHub Pages publishes them, open displays check for the new schedule every minute.
+
+GitHub repository write access controls editing. The display and its published content are public.
+
+## Publish to GitHub Pages
+
+Open **Settings → Pages** in this repository. Under **Build and deployment**, select **Deploy from a branch**, choose **main** and **/(root)**, then save. When deployment finishes, select **Visit site**.
+
+Open the published address in Edge on Windows or in the browser on the Fire TV. On Windows, press **F11** for full screen. Check that the logo and clock are visible, the time matches Lakeland, and the prayer schedule matches the approved timetable.
+
+To preview locally, serve the repository directory over HTTP and open its local address. The schedule is loaded over HTTP.
