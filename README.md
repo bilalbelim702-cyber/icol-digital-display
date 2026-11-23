@@ -13,7 +13,7 @@ GitHub repository write access controls editing. The display and its published c
 
 To show Friday prayer times, add a top-level `jumuah` object to `schedule.json` alongside `prayers` and `announcements`. Give it `khutbah` and `iqamah` fields using the same 24-hour format. Leave either field blank until the approved time is available.
 
-The courtyard changes tint at 5 AM, 8 AM, 5 PM, and 8 PM Lakeland time. The Hijri date uses the civil calendar.
+The courtyard switches scenes at 5 AM, 8 AM, 5 PM, and 8 PM Lakeland time. The Hijri date uses the civil calendar.
 
 ## Publish to GitHub Pages
 
@@ -22,4 +22,3 @@ Open **Settings → Pages** in this repository. Under **Build and deployment**, 
 Open the published address in Edge on Windows or in the browser on the Fire TV. On Windows, press **F11** for full screen. Check that the logo and clock are visible, the time matches Lakeland, and the prayer schedule matches the approved timetable.
 
 To preview locally, serve the repository directory over HTTP and open its local address. The schedule is loaded over HTTP.
-

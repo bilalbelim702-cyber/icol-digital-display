@@ -7,17 +7,19 @@
   --navy: #0a2036;
   --gold-trim: linear-gradient(155deg, #fff0ad 4%, #bb792b 29%, #ffe6a0 52%, #9d6428 78%, #ffda79);
   --sky: #7d6447;
-  --tint: rgba(19, 37, 64, .23);
+  --courtyard: url("courtyard-day.jpg");
+  --tint: rgba(19, 37, 64, .10);
 }
-html[data-phase="dawn"] { --sky: #734957; --tint: rgba(95, 45, 79, .30); }
-html[data-phase="dusk"] { --sky: #775141; --tint: rgba(117, 50, 26, .13); }
-html[data-phase="night"] { --sky: #222a53; --tint: rgba(9, 19, 56, .56); }
+html[data-phase="dawn"] { --sky: #734957; --tint: rgba(95, 45, 79, .08); --courtyard: url("courtyard-dawn.jpg"); }
+html[data-phase="dusk"] { --sky: #775141; --tint: rgba(117, 50, 26, .06); --courtyard: url("courtyard-dusk.jpg"); }
+html[data-phase="night"] { --sky: #222a53; --tint: rgba(9, 19, 56, .06); --courtyard: url("courtyard-night.jpg"); }
 * { box-sizing: border-box; }
 body {
   margin: 0;
   min-height: 100vh;
   background:
     linear-gradient(var(--tint), var(--tint)),
+    var(--courtyard) center / cover no-repeat,
     url("courtyard.jpg") center / cover no-repeat,
     radial-gradient(ellipse at 50% 20%, var(--sky), #152441 78%);
   background-attachment: fixed;
@@ -194,3 +196,5 @@ tbody .label-ar { margin-inline-start: 1.65em; text-align: left; color: #693a13;
   thead th, tbody th, td { padding-block: clamp(4px, .66vh, 9px); }
   thead .label-ar, tbody .label-ar { line-height: 1.25; }
 }
+html[data-phase="night"] .masthead h1 { mix-blend-mode: screen; }
+html[data-phase="night"] .logo { filter: brightness(1.08) contrast(1.2) invert(1); }
