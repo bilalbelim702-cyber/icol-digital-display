@@ -3,42 +3,63 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#132c25">
+  <meta name="theme-color" content="#0d233a">
   <title>ICOL | Salah Display</title>
   <link rel="icon" href="icol-logo.jpg">
-  <link rel="stylesheet" href="display.css">
-  <script src="display.js" defer></script>
+  <link rel="stylesheet" href="courtyard.css">
+  <script src="courtyard.js" defer></script>
 </head>
 <body>
   <main class="display">
     <header class="masthead">
-      <img class="logo" src="icol-logo.jpg" alt="Islamic Center of Lakeland">
-      <div class="identity">
-        <p>Islamic Center of Lakeland</p>
-        <h1>Salah Display</h1>
+      <h1><img class="logo" src="icol-logo.jpg" alt="Islamic Center of Lakeland Salah Display"></h1>
+      <div class="dates panel">
+        <p id="date">Lakeland, Florida</p>
+        <p id="hijri-date"></p>
       </div>
     </header>
-    <section class="hero" aria-label="Local time and next prayer">
-      <div>
-        <p id="date" class="eyebrow">Lakeland, Florida</p>
+
+    <div class="dashboard">
+      <section class="time-panel panel" aria-label="Local time and next Iqamah">
+        <h2>Current time</h2>
         <div class="clock"><time id="clock">--:--</time><span id="period"></span></div>
-      </div>
-      <div class="next">
-        <p class="eyebrow">Next Iqamah</p>
-        <p id="next-prayer">Schedule pending</p>
-        <p id="countdown"></p>
-      </div>
-    </section>
-    <section aria-labelledby="schedule-title">
-      <div class="section-heading">
-        <h2 id="schedule-title">Prayer schedule</h2>
+        <div class="next">
+          <h2>Next Iqamah</h2>
+          <p id="next-prayer">Schedule pending</p>
+          <p id="countdown"></p>
+          <p id="next-time" class="pill" hidden></p>
+        </div>
+      </section>
+
+      <section class="schedule panel" aria-label="Prayer schedule">
+        <table>
+          <thead><tr><th scope="col">Salah</th><th scope="col">Adhan</th><th scope="col">Iqamah</th></tr></thead>
+          <tbody id="prayers"></tbody>
+        </table>
         <p id="schedule-status" role="status">Loading schedule…</p>
+      </section>
+
+      <aside class="sidebar" aria-label="Community information">
+        <section class="jumuah panel">
+          <h2>Jumu’ah</h2>
+          <dl>
+            <div><dt>Khutbah</dt><dd id="khutbah">—</dd></div>
+            <div><dt>Iqamah</dt><dd id="jumuah-iqamah">—</dd></div>
+          </dl>
+        </section>
+        <section class="announcements panel">
+          <h2>Announcements</h2>
+          <p id="announcement">No announcements at this time.</p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="reminder panel" aria-labelledby="reminder-title">
+      <h2 id="reminder-title">Qur’anic Reminder</h2>
+      <div>
+        <p class="arabic" lang="ar" dir="rtl">وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ</p>
+        <p>“And establish prayer and give zakah.” <cite>Qur’an 2:43</cite></p>
       </div>
-      <div class="prayers" id="prayers"></div>
-    </section>
-    <section class="announcements" aria-labelledby="announcement-title">
-      <h2 id="announcement-title">Announcements</h2>
-      <p id="announcement">No announcements at this time.</p>
     </section>
   </main>
 </body>

@@ -1,0 +1,111 @@
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #fffaf0;
+  background: #101b32;
+  --gold: #ffdc86;
+  --edge: #daac52;
+  --navy: #0a2036;
+  --sky: #7d6447;
+  --tint: rgba(19, 37, 64, .23);
+}
+html[data-phase="dawn"] { --sky: #734957; --tint: rgba(95, 45, 79, .30); }
+html[data-phase="dusk"] { --sky: #775141; --tint: rgba(117, 50, 26, .13); }
+html[data-phase="night"] { --sky: #222a53; --tint: rgba(9, 19, 56, .56); }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(var(--tint), var(--tint)),
+    url("courtyard.jpg") center / cover no-repeat,
+    radial-gradient(ellipse at 50% 20%, var(--sky), #152441 78%);
+  background-attachment: fixed;
+}
+.display {
+  width: min(100%, 1920px);
+  min-height: 100vh;
+  margin: auto;
+  padding: clamp(18px, 3vw, 55px) clamp(16px, 4vw, 76px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(12px, 2.4vh, 30px);
+}
+h1, h2, p, dl, dd { margin: 0; }
+h2 { font-size: clamp(17px, 1.55vw, 30px); color: var(--gold); }
+.masthead { position: relative; display: grid; justify-items: center; align-items: center; }
+.logo {
+  display: block;
+  width: clamp(112px, 14vh, 175px);
+  height: auto;
+  border: 1px solid var(--edge);
+  border-radius: 16px;
+  box-shadow: 0 5px 24px #0a122447;
+}
+.panel {
+  min-width: 0;
+  background: linear-gradient(150deg, #061527, #102b44);
+  border: 2px solid var(--edge);
+  border-radius: clamp(14px, 1.6vw, 30px);
+  box-shadow: 0 8px 24px #050d2390, inset 0 1px 0 #ffdf8b30;
+}
+.dates {
+  position: absolute;
+  right: 0;
+  padding: .6em 1.2em;
+  font-size: clamp(13px, 1.25vw, 24px);
+  font-weight: 650;
+  text-align: center;
+}
+#hijri-date { color: var(--gold); font-size: .9em; }
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.95fr) minmax(0, 1.04fr);
+  gap: clamp(8px, 1vw, 22px);
+}
+.time-panel { display: flex; flex-direction: column; justify-content: center; text-align: center; padding: clamp(10px, 1.25vw, 24px); }
+.clock { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; column-gap: .18em; font: 700 clamp(29px, 4vw, 76px)/1.12 Georgia, serif; font-variant-numeric: tabular-nums; margin-top: .12em; }
+#period { font: 650 .38em "Segoe UI", sans-serif; color: var(--gold); }
+.next { border-top: 1px solid var(--edge); margin-top: clamp(10px, 2vh, 28px); padding-top: clamp(9px, 1.5vh, 20px); }
+#next-prayer { font: 700 clamp(21px, 3vw, 56px)/1.05 Georgia, serif; margin-top: .15em; }
+#countdown { font-size: clamp(15px, 1.6vw, 29px); margin-top: .3em; }
+#countdown:empty, #schedule-status:empty { display: none; }
+.pill { color: #362000; background: linear-gradient(#ffe4a5, #efbd58); border: 1px solid #bb8130; border-radius: 999px; font-weight: 750; padding: .16em .65em; white-space: nowrap; }
+#next-time { width: fit-content; margin: .55em auto 0; font-size: clamp(15px, 1.5vw, 28px); }
+.schedule { padding: 0 clamp(6px, .65vw, 13px) clamp(6px, .65vw, 13px); }
+table { width: 100%; border-spacing: 0; table-layout: fixed; font-size: clamp(14px, 1.62vw, 31px); text-align: center; }
+thead th { color: var(--gold); padding: clamp(8px, 1vh, 16px) 0; }
+thead th:first-child, tbody th { text-align: left; padding-left: clamp(8px, 1.2vw, 24px); }
+tbody { color: #102237; }
+tbody tr { background: #fff8e9; }
+tbody tr:nth-child(even) { background: #f4ead6; }
+tbody tr[aria-current="true"] { background: #ffe6ac; }
+tbody th, td { padding: clamp(8px, 1.15vh, 15px) 1px; border-bottom: 1px solid #ddc99e; }
+tbody tr:first-child th { border-top-left-radius: 13px; }
+tbody tr:first-child td:last-child { border-top-right-radius: 13px; }
+tbody tr:last-child th { border-bottom-left-radius: 13px; }
+tbody tr:last-child td:last-child { border-bottom-right-radius: 13px; }
+#schedule-status { padding-top: .45em; text-align: center; font-size: clamp(12px, 1vw, 18px); }
+.sidebar { min-width: 0; display: grid; grid-template-rows: auto 1fr; gap: clamp(8px, 1vw, 20px); }
+.sidebar section { padding: clamp(9px, 1vw, 20px); }
+.sidebar h2 { border-bottom: 1px solid #c99c5b8c; padding-bottom: .3em; margin-bottom: .35em; }
+.jumuah dl, #announcement { font-size: clamp(13px, 1.33vw, 25px); }
+.jumuah dl div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 .4em; }
+.jumuah dd { font-weight: 700; }
+#announcement { overflow-wrap: anywhere; }
+.reminder { display: flex; gap: 1em; align-items: center; justify-content: center; padding: .5em 1em; text-align: center; font-size: clamp(14px, 1.35vw, 25px); }
+.reminder h2 { max-width: 9em; border-right: 1px solid var(--edge); padding-right: .8em; }
+.arabic { font-size: clamp(24px, 2.5vw, 45px); line-height: 1.35; }
+cite { color: var(--gold); font-size: .86em; font-style: normal; white-space: nowrap; }
+@media (max-width: 760px) {
+  .dashboard { grid-template-columns: minmax(0, 1fr); }
+  .masthead { grid-template-columns: auto 1fr; justify-items: start; gap: 12px; }
+  .dates { position: static; justify-self: end; }
+  .time-panel { flex-direction: row; align-items: center; justify-content: space-around; gap: 10px; }
+  .next { border-top: 0; border-left: 1px solid var(--edge); padding: 0 0 0 12px; margin: 0; }
+  .sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
+}
+@media (max-width: 410px) {
+  .reminder { flex-direction: column; gap: .3em; }
+  .reminder h2 { max-width: none; border-right: 0; padding-right: 0; }
+}
