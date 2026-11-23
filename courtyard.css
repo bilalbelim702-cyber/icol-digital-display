@@ -187,3 +187,10 @@ tbody .label-ar { margin-inline-start: 1.65em; text-align: left; color: #693a13;
   .time-panel h2 .label-ar, .sidebar h2 .label-ar { display: block; margin-inline-start: 0; }
   tbody .label-ar { margin-inline-start: .1em; }
 }
+@media (min-width: 761px) and (orientation: landscape) {
+  .display { padding-block: clamp(14px, 3vh, 34px); gap: clamp(10px, 1.8vh, 22px); }
+  .masthead h1 { width: clamp(124px, min(24vw, 22vh), 340px); }
+  table { font-size: clamp(14px, min(1.62vw, 2.7vh), 31px); line-height: 1.15; }
+  thead th, tbody th, td { padding-block: clamp(4px, .66vh, 9px); }
+  thead .label-ar, tbody .label-ar { line-height: 1.25; }
+}
