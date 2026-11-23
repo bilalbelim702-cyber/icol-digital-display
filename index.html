@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#0d233a">
   <title>ICOL | Salah Display</title>
   <link rel="icon" href="icol-logo.jpg">
-  <link rel="stylesheet" href="courtyard.css?v=4">
-  <script src="courtyard.js?v=2" defer></script>
+  <link rel="stylesheet" href="courtyard.css?v=5">
+  <script src="courtyard.js?v=3" defer></script>
 </head>
 <body>
   <main class="display">
@@ -21,11 +21,11 @@
 
     <div class="dashboard">
       <section class="time-panel panel" aria-label="Local time and next Iqamah">
-        <h2>Current time</h2>
+        <h2>Current time <span class="label-ar" lang="ar" dir="rtl">الْوَقْتُ الْآنَ</span></h2>
         <div class="clock"><time id="clock">--:--</time><span id="clock-seconds" aria-hidden="true"></span><span id="period"></span></div>
         <div class="next">
-          <h2>Next Iqamah</h2>
-          <p id="next-prayer">Schedule pending</p>
+          <h2>Next Iqamah <span class="label-ar" lang="ar" dir="rtl">الْإِقَامَةُ التَّالِيَةُ</span></h2>
+          <p id="next-prayer">Schedule pending</p><p id="next-prayer-ar" class="label-ar" lang="ar" dir="rtl" hidden></p>
           <p id="countdown"></p>
           <p id="next-time" class="pill" hidden></p>
         </div>
@@ -33,7 +33,11 @@
 
       <section class="schedule panel" aria-label="Prayer schedule">
         <table>
-          <thead><tr><th scope="col">Salah</th><th scope="col">Adhan</th><th scope="col">Iqamah</th></tr></thead>
+          <thead><tr>
+            <th scope="col">Salah <span class="label-ar" lang="ar" dir="rtl">الصَّلَاةُ</span></th>
+            <th scope="col">Adhan <span class="label-ar" lang="ar" dir="rtl">الْأَذَانُ</span></th>
+            <th scope="col">Iqamah <span class="label-ar" lang="ar" dir="rtl">الْإِقَامَةُ</span></th>
+          </tr></thead>
           <tbody id="prayers"></tbody>
         </table>
         <p id="schedule-status" role="status">Loading schedule…</p>
@@ -41,14 +45,14 @@
 
       <aside class="sidebar" aria-label="Community information">
         <section class="jumuah panel">
-          <h2>Jumu’ah</h2>
+          <h2>Jumu’ah <span class="label-ar" lang="ar" dir="rtl">الْجُمُعَةُ</span></h2>
           <dl>
-            <div><dt>Khutbah</dt><dd id="khutbah">—</dd></div>
-            <div><dt>Iqamah</dt><dd id="jumuah-iqamah">—</dd></div>
+            <div><dt>Khutbah <span class="label-ar" lang="ar" dir="rtl">الْخُطْبَةُ</span></dt><dd id="khutbah">—</dd></div>
+            <div><dt>Iqamah <span class="label-ar" lang="ar" dir="rtl">الْإِقَامَةُ</span></dt><dd id="jumuah-iqamah">—</dd></div>
           </dl>
         </section>
         <section class="announcements panel">
-          <h2>Announcements</h2>
+          <h2>Announcements <span class="label-ar" lang="ar" dir="rtl">الْإِعْلَانَاتُ</span></h2>
           <p id="announcement">No announcements at this time.</p>
         </section>
       </aside>

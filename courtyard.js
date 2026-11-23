@@ -1,6 +1,13 @@
 "use strict";
 
-const names = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+const prayerNames = {
+  Fajr: "الْفَجْرُ",
+  Dhuhr: "الظُّهْرُ",
+  Asr: "الْعَصْرُ",
+  Maghrib: "الْمَغْرِبُ",
+  Isha: "الْعِشَاءُ"
+};
+const names = Object.keys(prayerNames);
 const zone = "America/New_York";
 const clockFormat = new Intl.DateTimeFormat("en-US", {
   timeZone: zone, hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23"
@@ -19,7 +26,14 @@ let scheduleStatus = "Loading schedule…";
 for (const name of names) {
   const card = document.createElement("tr");
   card.innerHTML = '<th scope="row"></th><td>—</td><td><span class="pill">—</span></td>';
-  card.querySelector("th").textContent = name;
+  const label = card.querySelector("th");
+  label.textContent = name;
+  const arabic = document.createElement("span");
+  arabic.className = "label-ar";
+  arabic.lang = "ar";
+  arabic.dir = "rtl";
+  arabic.textContent = prayerNames[name];
+  label.append(arabic);
   byId("prayers").append(card);
   cards.set(name, card);
 }
@@ -145,6 +159,8 @@ function updateDisplay() {
     else card.removeAttribute("aria-current");
   }
   byId("next-prayer").textContent = next ? next.name : "Schedule pending";
+  byId("next-prayer-ar").hidden = !next;
+  byId("next-prayer-ar").textContent = next ? prayerNames[next.name] : "";
   byId("countdown").textContent = next
     ? (next.tomorrow ? "Tomorrow · " : "") + Math.floor(next.wait / 3600) + ":" +
       twoDigits(Math.floor(next.wait / 60) % 60) + ":" + twoDigits(next.wait % 60)

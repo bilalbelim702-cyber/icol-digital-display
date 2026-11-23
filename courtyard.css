@@ -166,3 +166,24 @@ cite { color: var(--gold); font-size: .86em; font-style: normal; white-space: no
 }
 cite a { color: inherit; text-underline-offset: .2em; }
 #clock-seconds { margin-left: -.23em; color: var(--gold); font-size: .56em; }
+
+.label-ar {
+  display: inline-block;
+  margin-inline-start: .25em;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.label-ar[hidden] { display: none; }
+thead .label-ar, tbody .label-ar {
+  display: block;
+  margin-inline-start: 0;
+  font-size: .9em;
+}
+tbody .label-ar { margin-inline-start: 1.65em; text-align: left; color: #693a13; }
+#next-prayer-ar { font-size: clamp(20px, 2.5vw, 46px); color: var(--gold); }
+.sidebar .label-ar { font-size: .9em; }
+@media (max-width: 430px) {
+  .time-panel h2 .label-ar, .sidebar h2 .label-ar { display: block; margin-inline-start: 0; }
+  tbody .label-ar { margin-inline-start: .1em; }
+}
