@@ -7,12 +7,12 @@
   --navy: #0a2036;
   --gold-trim: linear-gradient(155deg, #fff0ad 4%, #bb792b 29%, #ffe6a0 52%, #9d6428 78%, #ffda79);
   --sky: #7d6447;
-  --courtyard: url("courtyard-day.jpg");
+  --courtyard: url("prayer-hall-day.jpg");
   --tint: rgba(19, 37, 64, .10);
 }
-html[data-phase="dawn"] { --sky: #734957; --tint: rgba(95, 45, 79, .08); --courtyard: url("courtyard-dawn.jpg"); }
+html[data-phase="dawn"] { --sky: #734957; --tint: rgba(95, 45, 79, .08); --courtyard: url("lakeside-dawn.jpg"); }
 html[data-phase="dusk"] { --sky: #775141; --tint: rgba(117, 50, 26, .06); --courtyard: url("courtyard-dusk.jpg"); }
-html[data-phase="night"] { --sky: #222a53; --tint: rgba(9, 19, 56, .06); --courtyard: url("courtyard-night.jpg"); }
+html[data-phase="night"] { --sky: #222a53; --tint: rgba(9, 19, 56, .06); --courtyard: url("mosque-plaza-night.jpg"); }
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -198,3 +198,33 @@ tbody .label-ar { margin-inline-start: 1.65em; text-align: left; color: #693a13;
 }
 html[data-phase="night"] .masthead h1 { mix-blend-mode: screen; }
 html[data-phase="night"] .logo { filter: brightness(1.08) contrast(1.2) invert(1); }
+
+.whatsapp {
+  margin: .7em 0 0;
+  text-align: center;
+}
+.whatsapp-qr {
+  position: relative;
+  width: min(100%, clamp(106px, 23vh, 248px));
+  aspect-ratio: 1;
+  overflow: hidden;
+  margin-inline: auto;
+  background: white;
+  border-radius: 8px;
+}
+.whatsapp-qr img {
+  position: absolute;
+  /* Frame the original QR and its white margin without altering the code. */
+  width: 201.71%;
+  max-width: none;
+  height: auto;
+  left: -50.85%;
+  top: -173.93%;
+}
+.whatsapp figcaption {
+  margin-top: .4em;
+  color: var(--gold);
+  font-size: clamp(12px, 1.05vw, 20px);
+  font-weight: 650;
+}
+.whatsapp .label-ar { display: block; margin-inline-start: 0; }
