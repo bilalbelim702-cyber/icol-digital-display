@@ -302,3 +302,7 @@ html[data-phase="night"] .logo { filter: brightness(1.08) contrast(1.2) invert(1
   .reminder { padding-block: .32em; font-size: clamp(11px, 2.5vh, 16px); }
   .arabic { font-size: clamp(18px, 4.4vh, 30px); line-height: 1.22; }
 }
+
+@media (min-width: 660px) and (orientation: landscape) {
+  .masthead h1 { transform: scale(1.1); }
+}
