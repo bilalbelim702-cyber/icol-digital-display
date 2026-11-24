@@ -13,7 +13,7 @@ GitHub repository write access controls editing. The display and its published c
 
 To show Friday prayer times, add a top-level `jumuah` object to `schedule.json` alongside `prayers` and `announcements`. Give it `khutbah` and `iqamah` fields using the same 24-hour format. Leave either field blank until the approved time is available.
 
-The chandelier hall appears from 5 AM to 8 PM Lakeland time. The blue-hour mosque appears overnight. The Hijri date uses the civil calendar.
+The chandelier hall appears from the start of Fajr until five minutes before the start of Maghrib. The blue-hour mosque appears from that point until Fajr. The switch times follow the displayed Lakeland prayer starts. The Hijri date uses the civil calendar.
 
 ## Publish to GitHub Pages
 

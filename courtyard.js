@@ -24,6 +24,9 @@ let schedule = null;
 let displayedPrayerDay;
 let todayPrayers = [];
 let tomorrowPrayers = [];
+let daylightStarts;
+let blueHourStarts;
+const blueHourLeadMinutes = 5;
 const dayMilliseconds = 86400000;
 let scheduleUpdateError = false;
 let scheduleStatus = "Loading schedule…";
@@ -126,10 +129,9 @@ function calculatePrayerStarts(day) {
   };
 }
 
-function prayersForDay(day) {
+function prayersForDay(day, starts = calculatePrayerStarts(day)) {
   if (!schedule) return [];
   const friday = new Date(day).getUTCDay() === 5 && (schedule.friday.khutbah !== null || schedule.friday.iqamah !== null);
-  const starts = calculatePrayerStarts(day);
   return schedule.prayers.map((prayer) => {
     const { name, sunsetOffset } = prayer;
     if (name === "Dhuhr" && friday) return { ...prayer, name: "Jumu’ah", adhan: null, iqamah: schedule.friday.iqamah };
@@ -143,10 +145,14 @@ function prayersForDay(day) {
 function updatePrayerDays(day) {
   if (displayedPrayerDay === day) return;
   displayedPrayerDay = day;
-  todayPrayers = prayersForDay(day);
+  const starts = calculatePrayerStarts(day);
+  todayPrayers = prayersForDay(day, starts);
+  daylightStarts = todayPrayers.find((prayer) => prayer.name === "Fajr")?.adhan ?? starts.Fajr;
+  const maghribStarts = todayPrayers.find((prayer) => prayer.name === "Maghrib")?.adhan ?? starts.Maghrib;
+  blueHourStarts = Math.max(daylightStarts, maghribStarts - blueHourLeadMinutes);
   tomorrowPrayers = prayersForDay(day + dayMilliseconds);
   if (schedule && !scheduleUpdateError) {
-    byId("sunrise-time").textContent = formatTime(calculatePrayerStarts(day).Sunrise);
+    byId("sunrise-time").textContent = formatTime(starts.Sunrise);
     byId("sunrise-note").hidden = false;
     setStatus(todayPrayers.some((prayer) => prayer.checkIqamah) ? "Confirm highlighted Iqamah times · Karachi / Hanafi" : "Calculated · Karachi / Hanafi");
   }
@@ -168,13 +174,6 @@ function nextIqamah(today, tomorrow, seconds) {
     .map((prayer) => ({ ...prayer, wait: (prayer.tomorrow ? 86400 : 0) + prayer.iqamah * 60 - seconds }))
     .filter((prayer) => prayer.wait >= 0)
     .sort((a, b) => a.wait - b.wait)[0];
-}
-
-function phaseForHour(hour) {
-  if (hour >= 5 && hour < 8) return "dawn";
-  if (hour >= 8 && hour < 17) return "day";
-  if (hour >= 17 && hour < 20) return "dusk";
-  return "night";
 }
 
 const reminderDateFormat = new Intl.DateTimeFormat("en-US", {
@@ -241,7 +240,8 @@ function updateDisplay() {
   byId("period").textContent = hour < 12 ? "AM" : "PM";
   byId("date").textContent = dateFormat.format(now);
   byId("hijri-date").textContent = hijriFormat.format(now);
-  document.documentElement.dataset.phase = phaseForHour(hour);
+  const minutes = hour * 60 + minute;
+  document.documentElement.dataset.phase = minutes >= daylightStarts && minutes < blueHourStarts ? "day" : "night";
 
   const next = nextIqamah(todayPrayers, tomorrowPrayers, seconds);
   for (const [name, card] of cards) {
