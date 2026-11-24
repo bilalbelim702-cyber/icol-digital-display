@@ -26,3 +26,9 @@ To preview locally, serve the repository directory over HTTP and open its local 
 Maghrib uses the configured `sunsetOffsetMinutes` after calculated Lakeland sunset when the Adhan field is blank. A confirmed Maghrib Adhan can override the calculation. The [NOAA solar equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF) are used for the daily sunset estimate. The Friday table and countdown show Jumu’ah in the Dhuhr slot when a Friday khutbah or prayer time is set. The countdown includes Jumu’ah only if its prayer time is entered.
 
 Prayer begins times and sunrise are calculated for Lakeland using Karachi twilight angles, the Hanafi Asr shadow rule, and local Eastern time. A configured Adhan time overrides the calculated start for that prayer. If a configured Iqamah falls outside the calculated opening (or after sunrise for Fajr), the board shows Check time and skips it in the countdown until the schedule is corrected.
+
+## Phone controls
+
+Open [Board controls](https://bilalbelim702-cyber.github.io/icol-digital-display/controls.html) to update daily Iqamah, Maghrib's offset, Jumu’ah, or announcements without editing JSON. Preview controls loads the current public timetable and does not publish anything.
+
+For editing, generate a short-lived fine-grained GitHub token for only this repository with Contents Read and write. Enter it directly in Board controls. The token stays in memory and goes only to GitHub's API. Use Lock when finished. The editor requires the current file version when saving so it cannot silently overwrite a newer schedule.

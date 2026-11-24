@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1d33">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>ICOL | Board Controls</title>
+  <link rel="icon" href="icol-logo.jpg">
+  <link rel="stylesheet" href="controls.css">
+  <script src="controls.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <img src="icol-logo.jpg" alt="" width="54" height="54">
+      <div><p>Islamic Center of Lakeland</p><h1>Board controls</h1></div>
+      <a class="view-board" href="./">View board</a>
+    </header>
+    <section id="access" class="panel" aria-labelledby="access-title">
+      <h2 id="access-title">Unlock editing</h2>
+      <p>Use a fine-grained GitHub token for the ICOL repository. This page keeps it in memory until you lock the editor or leave the page.</p>
+      <form id="unlock-form">
+        <label for="token">GitHub access token</label>
+        <input id="token" type="password" required autocomplete="off" autocapitalize="none" spellcheck="false">
+        <div class="actions">
+          <button id="unlock" type="submit">Unlock controls</button>
+          <button id="preview" type="button" class="secondary">Preview controls</button>
+        </div>
+      </form>
+      <details>
+        <summary>Set up access</summary>
+        <ol>
+          <li>Sign in to GitHub and <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">create a fine-grained token</a> with an expiration.</li>
+          <li>Choose <strong>Only select repositories</strong> and select <strong>icol-digital-display</strong>.</li>
+          <li>Set <strong>Contents</strong> to <strong>Read and write</strong>, then generate the token.</li>
+          <li>Copy the token into the field above on this page. Keep it private.</li>
+        </ol>
+      </details>
+    </section>
+
+    <div id="editor" hidden>
+      <div class="mode"><p id="mode"></p><button id="lock" class="secondary" type="button">Lock</button></div>
+      <form id="schedule-form">
+        <section class="panel" aria-labelledby="iqamah-title">
+          <h2 id="iqamah-title">Daily Iqamah</h2>
+          <div class="fields">
+            <label for="fajr">Fajr <input id="fajr" type="time"></label>
+            <label for="dhuhr">Dhuhr <input id="dhuhr" type="time"></label>
+            <label for="asr">Asr <input id="asr" type="time"></label>
+            <label for="isha">Isha <input id="isha" type="time"></label>
+            <label for="maghrib-mode">Maghrib <select id="maghrib-mode">
+              <option value="sunset">After sunset or Adhan</option>
+              <option value="fixed">Fixed time</option>
+            </select></label>
+            <label id="offset-field" for="maghrib-offset">Minutes after sunset or Adhan
+              <input id="maghrib-offset" type="number" min="0" max="120" step="1" inputmode="numeric">
+            </label>
+            <label id="fixed-field" for="maghrib-fixed" hidden>Maghrib Iqamah <input id="maghrib-fixed" type="time"></label>
+          </div>
+          <details>
+            <summary>Prayer start overrides</summary>
+            <p>Leave these blank for automatic Lakeland prayer starts. Enter a time only if ICOL wants to use an override.</p>
+            <div class="fields">
+              <label for="adhan-fajr">Fajr <input id="adhan-fajr" type="time"></label>
+              <label for="adhan-dhuhr">Dhuhr <input id="adhan-dhuhr" type="time"></label>
+              <label for="adhan-asr">Asr <input id="adhan-asr" type="time"></label>
+              <label for="adhan-maghrib">Maghrib <input id="adhan-maghrib" type="time"></label>
+              <label for="adhan-isha">Isha <input id="adhan-isha" type="time"></label>
+            </div>
+          </details>
+        </section>
+        <section class="panel" aria-labelledby="friday-title">
+          <h2 id="friday-title">Jumu’ah</h2>
+          <div class="fields">
+            <label for="khutbah">Khutbah <input id="khutbah" type="time"></label>
+            <label for="friday-prayer">Salah <input id="friday-prayer" type="time"></label>
+          </div>
+        </section>
+        <section class="panel" aria-labelledby="announcement-title">
+          <h2 id="announcement-title">Announcements</h2>
+          <label for="announcements">Enter one announcement per line.</label>
+          <textarea id="announcements" rows="4"></textarea>
+        </section>
+        <div class="actions publish">
+          <button id="save" type="submit">Save to GitHub</button>
+          <button id="refresh" type="button" class="secondary">Reload schedule</button>
+        </div>
+      </form>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>
