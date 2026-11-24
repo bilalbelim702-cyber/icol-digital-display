@@ -2,17 +2,15 @@
   font-family: "Segoe UI", Arial, sans-serif;
   color: #fffaf0;
   background: #101b32;
-  --accent-text: #b9f4dc;
-  --edge: #55bca1;
+  --accent-text: #ffe6ad;
+  --edge: #cca264;
   --navy: #0a2036;
-  --panel-trim: linear-gradient(155deg, #80ddbc, #248d82 40%, #53b8aa 65%, #42729b);
+  --panel-trim: linear-gradient(155deg, #f2d697, #aa7c3e 44%, #e4c483 72%, #ba8b4c);
   --sky: #7d6447;
-  --courtyard: url("prayer-hall-day.jpg");
+  --courtyard: url("chandelier-hall.jpg");
   --tint: rgba(19, 37, 64, .10);
 }
-html[data-phase="dawn"] { --sky: #734957; --tint: rgba(95, 45, 79, .08); --courtyard: url("lakeside-dawn.jpg"); }
-html[data-phase="dusk"] { --sky: #775141; --tint: rgba(117, 50, 26, .06); --courtyard: url("courtyard-dusk.jpg"); }
-html[data-phase="night"] { --sky: #222a53; --tint: rgba(9, 19, 56, .06); --courtyard: url("mosque-plaza-night.jpg"); }
+html[data-phase="night"] { --sky: #222a53; --tint: rgba(9, 19, 56, .06); --courtyard: url("blue-hour-mosque.jpg"); }
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -54,10 +52,10 @@ h2 { font-size: clamp(17px, 1.55vw, 30px); color: var(--accent-text); }
 }
 .panel {
   min-width: 0;
-  background: linear-gradient(150deg, #061627, #10354b) padding-box, var(--panel-trim) border-box;
+  background: linear-gradient(150deg, #081929, #102a43) padding-box, var(--panel-trim) border-box;
   border: 2px solid transparent;
   border-radius: clamp(14px, 1.6vw, 30px);
-  box-shadow: 0 8px 24px #050d2390, inset 0 1px 0 #9bf7db26;
+  box-shadow: 0 8px 24px #050d2390, inset 0 1px 0 #ffdf8b26;
 }
 .dates {
   position: absolute;
@@ -80,22 +78,22 @@ h2 { font-size: clamp(17px, 1.55vw, 30px); color: var(--accent-text); }
 #next-prayer { font: 700 clamp(21px, 3vw, 56px)/1.05 Georgia, serif; margin-top: .15em; }
 #countdown { font-size: clamp(15px, 1.6vw, 29px); margin-top: .3em; }
 #countdown:empty, #schedule-status:empty { display: none; }
-.pill { color: #082e26; background: linear-gradient(#c5f5e3, #70cfad); border: 1px solid #58ac95; border-radius: 999px; font-weight: 750; padding: .16em .65em; white-space: nowrap; }
+.pill { color: #342000; background: linear-gradient(#ffebbd, #e7be72); border: 1px solid #b68a49; border-radius: 999px; font-weight: 750; padding: .16em .65em; white-space: nowrap; }
 #next-time { width: fit-content; margin: .55em auto 0; font-size: clamp(15px, 1.5vw, 28px); }
 .schedule { padding: 0 clamp(6px, .65vw, 13px) clamp(6px, .65vw, 13px); }
 table { width: 100%; border-spacing: 0; table-layout: fixed; font-size: clamp(14px, 1.62vw, 31px); text-align: center; }
 thead th { color: var(--accent-text); padding: clamp(8px, 1vh, 16px) 0; }
 thead th:first-child, tbody th { text-align: left; padding-left: clamp(8px, 1.2vw, 24px); }
 tbody { color: #102237; }
-tbody tr { background: #f6fbfa; }
-tbody tr:nth-child(even) { background: #e9f4f1; }
-tbody tr[aria-current="true"] { background: #cef2e3; }
-tbody th, td { padding: clamp(8px, 1.15vh, 15px) 1px; border-bottom: 1px solid #cbded9; }
+tbody tr { background: #fcf8ee; }
+tbody tr:nth-child(even) { background: #f4edde; }
+tbody tr[aria-current="true"] { background: #f8e7bd; }
+tbody th, td { padding: clamp(8px, 1.15vh, 15px) 1px; border-bottom: 1px solid #ded2ba; }
 tbody th::before {
   display: inline-block;
   width: 1.4em;
   margin-right: .28em;
-  color: #286d5c;
+  color: #795329;
   text-align: center;
   font: 1.15em Georgia, serif;
 }
@@ -109,13 +107,13 @@ tbody tr:first-child td:last-child { border-top-right-radius: 13px; }
 tbody tr:last-child th { border-bottom-left-radius: 13px; }
 tbody tr:last-child td:last-child { border-bottom-right-radius: 13px; }
 #schedule-status { padding-top: .45em; text-align: center; font-size: clamp(12px, 1vw, 18px); }
-.sidebar { min-width: 0; display: grid; grid-template-rows: auto 1fr; gap: clamp(8px, 1vw, 20px); }
+.sidebar { min-width: 0; display: grid; grid-template-rows: auto minmax(min-content, 1fr) auto; gap: clamp(8px, 1vw, 20px); }
 .sidebar section { padding: clamp(9px, 1vw, 20px); }
-.sidebar h2 { border-bottom: 1px solid #68c2ae80; padding-bottom: .3em; margin-bottom: .35em; }
+.sidebar h2 { border-bottom: 1px solid #c99c5b80; padding-bottom: .3em; margin-bottom: .35em; }
 .jumuah dl, #announcement { font-size: clamp(13px, 1.33vw, 25px); }
 .jumuah dl div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 .4em; }
 .jumuah dd { font-weight: 700; }
-#announcement { overflow-wrap: anywhere; }
+#announcement { min-block-size: 3.6em; line-height: 1.2; overflow-wrap: anywhere; }
 .reminder { display: flex; gap: 1em; align-items: center; justify-content: center; padding: .5em 1em; text-align: center; font-size: clamp(14px, 1.35vw, 25px); }
 .reminder h2 { max-width: 9em; border-right: 1px solid var(--edge); padding-right: .8em; }
 .arabic { font-size: clamp(24px, 2.5vw, 45px); line-height: 1.35; }
@@ -146,8 +144,8 @@ cite { color: var(--accent-text); font-size: .86em; font-style: normal; white-sp
     inset: 0 auto 0 0;
     width: clamp(30px, 6vw, 112px);
     background:
-      repeating-linear-gradient(45deg, transparent 0 10px, #64c9af80 11px 12px, transparent 13px 19px),
-      repeating-linear-gradient(-45deg, transparent 0 10px, #64c9af80 11px 12px, transparent 13px 19px),
+      repeating-linear-gradient(45deg, transparent 0 10px, #dbb26980 11px 12px, transparent 13px 19px),
+      repeating-linear-gradient(-45deg, transparent 0 10px, #dbb26980 11px 12px, transparent 13px 19px),
       #0c2741;
     border-radius: 50%;
     border-right: 2px solid var(--edge);
@@ -182,12 +180,12 @@ thead .label-ar, tbody .label-ar {
   margin-inline-start: 0;
   font-size: .9em;
 }
-tbody .label-ar { margin-inline-start: 1.65em; text-align: left; color: #265f53; }
+tbody .label-ar { margin-left: 1.65em; text-align: left; color: #6a431b; }
 #next-prayer-ar { font-size: clamp(20px, 2.5vw, 46px); color: var(--accent-text); }
 .sidebar .label-ar { font-size: .9em; }
 @media (max-width: 430px) {
   .time-panel h2 .label-ar, .sidebar h2 .label-ar { display: block; margin-inline-start: 0; }
-  tbody .label-ar { margin-inline-start: .1em; }
+  tbody .label-ar { margin-left: .1em; }
 }
 @media (min-width: 761px) and (orientation: landscape) {
   .display { padding-block: clamp(14px, 3vh, 34px); gap: clamp(10px, 1.8vh, 22px); }
@@ -200,15 +198,19 @@ html[data-phase="night"] .masthead h1 { mix-blend-mode: screen; }
 html[data-phase="night"] .logo { filter: brightness(1.08) contrast(1.2) invert(1); }
 
 .whatsapp {
-  margin: .7em 0 0;
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: clamp(9px, 1.1vw, 18px);
+  margin: 0;
 }
 .whatsapp-qr {
+  grid-column: 2;
+  grid-row: 1;
   position: relative;
-  width: min(100%, clamp(106px, 19.5vh, 220px));
+  width: clamp(103px, 17.6vh, 190px);
   aspect-ratio: 1;
   overflow: hidden;
-  margin-inline: auto;
   background: white;
   border-radius: 8px;
 }
@@ -222,9 +224,17 @@ html[data-phase="night"] .logo { filter: brightness(1.08) contrast(1.2) invert(1
   top: -173.93%;
 }
 .whatsapp figcaption {
-  margin-top: .4em;
+  grid-column: 1;
+  grid-row: 1;
   color: var(--accent-text);
-  font-size: clamp(12px, 1.05vw, 20px);
+  font-size: clamp(12px, 1.15vw, 22px);
   font-weight: 650;
 }
 .whatsapp .label-ar { display: block; margin-inline-start: 0; }
+@media (max-width: 760px) {
+  .whatsapp-panel { grid-column: 1 / -1; }
+}
+@media (min-width: 761px) and (max-width: 1020px) {
+  .whatsapp { grid-template-columns: 1fr; justify-items: center; row-gap: 5px; text-align: center; }
+  .whatsapp-qr, .whatsapp figcaption { grid-column: 1; grid-row: auto; }
+}
