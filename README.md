@@ -23,4 +23,6 @@ Open the published address in Edge on Windows or in the browser on the Fire TV. 
 
 To preview locally, serve the repository directory over HTTP and open its local address. The schedule is loaded over HTTP.
 
-Maghrib uses the configured `sunsetOffsetMinutes` after calculated Lakeland sunset when the Adhan field is blank. A confirmed Maghrib Adhan can override the calculation. The [NOAA solar equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF) are used for the daily sunset estimate. The Friday table and countdown show Jumu’ah in the Dhuhr slot when a Friday prayer time is set.
+Maghrib uses the configured `sunsetOffsetMinutes` after calculated Lakeland sunset when the Adhan field is blank. A confirmed Maghrib Adhan can override the calculation. The [NOAA solar equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF) are used for the daily sunset estimate. The Friday table and countdown show Jumu’ah in the Dhuhr slot when a Friday khutbah or prayer time is set. The countdown includes Jumu’ah only if its prayer time is entered.
+
+Prayer begins times and sunrise are calculated for Lakeland using Karachi twilight angles, the Hanafi Asr shadow rule, and local Eastern time. A configured Adhan time overrides the calculated start for that prayer. If a configured Iqamah falls outside the calculated opening (or after sunrise for Fajr), the board shows Check time and skips it in the countdown until the schedule is corrected.

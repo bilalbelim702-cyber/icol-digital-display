@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#0d233a">
   <title>ICOL | Salah Display</title>
   <link rel="icon" href="icol-logo.jpg">
-  <link rel="stylesheet" href="courtyard.css?v=13">
-  <script src="courtyard.js?v=4" defer></script>
+  <link rel="stylesheet" href="courtyard.css?v=14">
+  <script src="courtyard.js?v=6" defer></script>
 </head>
 <body>
   <main class="display">
@@ -35,12 +35,15 @@
         <table>
           <thead><tr>
             <th scope="col">Salah <span class="label-ar" lang="ar" dir="rtl">الصَّلَاةُ</span></th>
-            <th scope="col">Adhan <span class="label-ar" lang="ar" dir="rtl">الْأَذَانُ</span></th>
+            <th scope="col">Prayer Begins <span class="label-ar" lang="ar" dir="rtl">بَدْءُ الْوَقْتِ</span></th>
             <th scope="col">Iqamah <span class="label-ar" lang="ar" dir="rtl">الْإِقَامَةُ</span></th>
           </tr></thead>
           <tbody id="prayers"></tbody>
         </table>
-        <p id="schedule-status" role="status">Loading schedule…</p>
+        <div class="schedule-meta">
+          <p id="sunrise-note" hidden>Sunrise <span lang="ar" dir="rtl">الشُّرُوقُ</span> <strong id="sunrise-time"></strong></p>
+          <p id="schedule-status" role="status">Loading schedule…</p>
+        </div>
       </section>
 
       <aside class="sidebar" aria-label="Community information">
@@ -48,7 +51,7 @@
           <h2>Jumu’ah <span class="label-ar" lang="ar" dir="rtl">الْجُمُعَةُ</span></h2>
           <dl>
             <div id="khutbah-row" hidden><dt>Khutbah <span class="label-ar" lang="ar" dir="rtl">الْخُطْبَةُ</span></dt><dd id="khutbah">—</dd></div>
-            <div><dt>Prayer <span class="label-ar" lang="ar" dir="rtl">الصَّلَاةُ</span></dt><dd id="jumuah-iqamah">—</dd></div>
+            <div id="jumuah-prayer-row" hidden><dt>Prayer <span class="label-ar" lang="ar" dir="rtl">الصَّلَاةُ</span></dt><dd id="jumuah-iqamah">—</dd></div>
           </dl>
         </section>
         <section class="announcements panel">

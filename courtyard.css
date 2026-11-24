@@ -240,3 +240,7 @@ html[data-phase="night"] .logo { filter: brightness(1.08) contrast(1.2) invert(1
 }
 
 .jumuah dl div[hidden] { display: none; }
+
+.schedule-meta { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 0 1em; }
+#sunrise-note { font-size: clamp(12px, 1vw, 18px); color: var(--accent-text); }
+.check-time { background: #fff1eb; border-color: #a34020; color: #8c3218; font-size: .75em; }
