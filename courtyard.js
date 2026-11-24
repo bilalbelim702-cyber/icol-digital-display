@@ -15,9 +15,10 @@ const clockFormat = new Intl.DateTimeFormat("en-US", {
 const dateFormat = new Intl.DateTimeFormat("en-US", {
   timeZone: zone, weekday: "long", month: "long", day: "numeric", year: "numeric"
 });
-const hijriFormat = new Intl.DateTimeFormat("en-US-u-ca-islamic-civil", {
-  timeZone: zone, day: "numeric", month: "long", year: "numeric"
-});
+const hijriMonths = [
+  "Muharram", "Safar", "Rabi I", "Rabi II", "Jumada I", "Jumada II",
+  "Rajab", "Sha’ban", "Ramadan", "Shawwal", "Dhu al-Qa’dah", "Dhu al-Hijjah"
+];
 const byId = (id) => document.getElementById(id);
 const cards = new Map();
 let schedule = null;
@@ -142,9 +143,21 @@ function prayersForDay(day, starts = calculatePrayerStarts(day)) {
   });
 }
 
+// Islamic civil calendar with the Friday epoch, July 19, 622 (Gregorian).
+function formatHijriDate(calendarDay) {
+  const days = (calendarDay - Date.UTC(622, 6, 19)) / dayMilliseconds;
+  const year = Math.floor((30 * days + 10646) / 10631);
+  const daysBeforeYear = (year - 1) * 354 + Math.floor((3 + 11 * year) / 30);
+  const dayOfYear = days - daysBeforeYear;
+  const month = Math.min(11, Math.floor(dayOfYear / 29.5));
+  const day = dayOfYear - Math.ceil(29.5 * month) + 1;
+  return hijriMonths[month] + " " + day + ", " + year + " AH";
+}
+
 function updatePrayerDays(day) {
   if (displayedPrayerDay === day) return;
   displayedPrayerDay = day;
+  byId("hijri-date").textContent = formatHijriDate(day);
   const starts = calculatePrayerStarts(day);
   todayPrayers = prayersForDay(day, starts);
   daylightStarts = todayPrayers.find((prayer) => prayer.name === "Fajr")?.adhan ?? starts.Fajr;
@@ -239,7 +252,6 @@ function updateDisplay() {
   byId("clock-seconds").textContent = ":" + twoDigits(second);
   byId("period").textContent = hour < 12 ? "AM" : "PM";
   byId("date").textContent = dateFormat.format(now);
-  byId("hijri-date").textContent = hijriFormat.format(now);
   const minutes = hour * 60 + minute;
   document.documentElement.dataset.phase = minutes >= daylightStarts && minutes < blueHourStarts ? "day" : "night";
 
