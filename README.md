@@ -22,3 +22,5 @@ Open **Settings → Pages** in this repository. Under **Build and deployment**, 
 Open the published address in Edge on Windows or in the browser on the Fire TV. On Windows, press **F11** for full screen. Check that the logo and clock are visible, the time matches Lakeland, and the prayer schedule matches the approved timetable.
 
 To preview locally, serve the repository directory over HTTP and open its local address. The schedule is loaded over HTTP.
+
+Maghrib uses the configured `sunsetOffsetMinutes` after calculated Lakeland sunset when the Adhan field is blank. A confirmed Maghrib Adhan can override the calculation. The [NOAA solar equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF) are used for the daily sunset estimate. The Friday table and countdown show Jumu’ah in the Dhuhr slot when a Friday prayer time is set.

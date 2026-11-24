@@ -238,3 +238,5 @@ html[data-phase="night"] .logo { filter: brightness(1.08) contrast(1.2) invert(1
   .whatsapp { grid-template-columns: 1fr; justify-items: center; row-gap: 5px; text-align: center; }
   .whatsapp-qr, .whatsapp figcaption { grid-column: 1; grid-row: auto; }
 }
+
+.jumuah dl div[hidden] { display: none; }

@@ -1,10 +1,29 @@
 {
   "prayers": {
-    "Fajr": { "adhan": "", "iqamah": "" },
-    "Dhuhr": { "adhan": "", "iqamah": "" },
-    "Asr": { "adhan": "", "iqamah": "" },
-    "Maghrib": { "adhan": "", "iqamah": "" },
-    "Isha": { "adhan": "", "iqamah": "" }
+    "Fajr": {
+      "adhan": "",
+      "iqamah": "06:10"
+    },
+    "Dhuhr": {
+      "adhan": "",
+      "iqamah": "13:00"
+    },
+    "Asr": {
+      "adhan": "",
+      "iqamah": "16:30"
+    },
+    "Maghrib": {
+      "adhan": "",
+      "iqamah": "",
+      "sunsetOffsetMinutes": 10
+    },
+    "Isha": {
+      "adhan": "",
+      "iqamah": "19:10"
+    }
   },
-  "announcements": []
+  "announcements": [],
+  "jumuah": {
+    "iqamah": "13:30"
+  }
 }

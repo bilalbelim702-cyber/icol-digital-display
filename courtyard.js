@@ -21,13 +21,20 @@ const hijriFormat = new Intl.DateTimeFormat("en-US-u-ca-islamic-civil", {
 const byId = (id) => document.getElementById(id);
 const cards = new Map();
 let schedule = null;
+let displayedPrayerDay;
+let todayPrayers = [];
+let tomorrowPrayers = [];
+const dayMilliseconds = 86400000;
 let scheduleStatus = "Loading schedule…";
 
 for (const name of names) {
   const card = document.createElement("tr");
   card.innerHTML = '<th scope="row"></th><td>—</td><td><span class="pill">—</span></td>';
   const label = card.querySelector("th");
-  label.textContent = name;
+  const english = document.createElement("span");
+  english.className = "label-en";
+  english.textContent = name;
+  label.append(english);
   const arabic = document.createElement("span");
   arabic.className = "label-ar";
   arabic.lang = "ar";
@@ -62,7 +69,11 @@ function normalizeSchedule(data) {
     if ((entry.adhan && adhan === null) || (entry.iqamah && iqamah === null)) {
       throw new Error("Invalid prayer time for " + name);
     }
-    return { name, adhan, iqamah };
+    const sunsetOffset = entry.sunsetOffsetMinutes;
+    if (sunsetOffset !== undefined && (name !== "Maghrib" || !Number.isInteger(sunsetOffset) || sunsetOffset < 0 || sunsetOffset > 120)) {
+      throw new Error("Invalid sunset offset for " + name);
+    }
+    return { name, adhan, iqamah, sunsetOffset };
   });
   const announcements = data.announcements
     .filter((message) => typeof message === "string" && message.trim())
@@ -76,13 +87,62 @@ function normalizeSchedule(data) {
   return { prayers, announcements, friday: { khutbah, iqamah } };
 }
 
-function nextIqamah(prayers, seconds) {
-  return prayers
+// NOAA solar position equations use UTC minutes and longitude positive east.
+function sunsetMinutes(day) {
+  const year = new Date(day).getUTCFullYear();
+  const start = Date.UTC(year, 0, 1);
+  const yearLength = (Date.UTC(year + 1, 0, 1) - start) / dayMilliseconds;
+  const gamma = 2 * Math.PI / yearLength * ((day - start) / dayMilliseconds + 0.25);
+  const equationOfTime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) -
+    0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
+  const declination = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) -
+    0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) -
+    0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
+  const radians = Math.PI / 180;
+  const latitude = 28.0395 * radians;
+  const longitude = -81.9498;
+  const zenith = 90.833 * radians;
+  const hourAngle = Math.acos((Math.cos(zenith) - Math.sin(latitude) * Math.sin(declination)) /
+    (Math.cos(latitude) * Math.cos(declination))) / radians;
+  const utcMinutes = Math.round(720 - 4 * longitude - equationOfTime + 4 * hourAngle);
+  const parts = clockFormat.formatToParts(new Date(day + utcMinutes * 60000));
+  const hour = Number(parts.find((part) => part.type === "hour").value);
+  const minute = Number(parts.find((part) => part.type === "minute").value);
+  return hour * 60 + minute;
+}
+
+function prayersForDay(day) {
+  if (!schedule) return [];
+  const friday = new Date(day).getUTCDay() === 5 && schedule.friday.iqamah !== null;
+  return schedule.prayers.map((prayer) => {
+    if (prayer.name === "Dhuhr" && friday) return { ...prayer, name: "Jumu’ah", iqamah: schedule.friday.iqamah };
+    if (!Number.isInteger(prayer.sunsetOffset)) return prayer;
+    const sunset = sunsetMinutes(day);
+    return { ...prayer, adhan: prayer.adhan ?? sunset, iqamah: ((prayer.adhan ?? sunset) + prayer.sunsetOffset) % 1440 };
+  });
+}
+
+function updatePrayerDays(day) {
+  if (displayedPrayerDay === day) return;
+  displayedPrayerDay = day;
+  todayPrayers = prayersForDay(day);
+  tomorrowPrayers = prayersForDay(day + dayMilliseconds);
+  for (const prayer of todayPrayers) {
+    const card = cards.get(prayer.name === "Jumu’ah" ? "Dhuhr" : prayer.name);
+    const [name, arabic, adhan, iqamah] = card.querySelectorAll(".label-en, .label-ar, td:first-of-type, .pill");
+    name.textContent = prayer.name;
+    arabic.textContent = prayer.name === "Jumu’ah" ? "الْجُمُعَةُ" : prayerNames[prayer.name];
+    adhan.textContent = formatTime(prayer.adhan);
+    iqamah.textContent = formatTime(prayer.iqamah);
+  }
+}
+
+function nextIqamah(today, tomorrow, seconds) {
+  return [...today.map((prayer) => ({ ...prayer, tomorrow: false })),
+    ...tomorrow.map((prayer) => ({ ...prayer, tomorrow: true }))]
     .filter((prayer) => prayer.iqamah !== null)
-    .map((prayer) => {
-      const wait = (86400 + prayer.iqamah * 60 - seconds) % 86400;
-      return { ...prayer, wait, tomorrow: prayer.iqamah * 60 < seconds };
-    })
+    .map((prayer) => ({ ...prayer, wait: (prayer.tomorrow ? 86400 : 0) + prayer.iqamah * 60 - seconds }))
+    .filter((prayer) => prayer.wait >= 0)
     .sort((a, b) => a.wait - b.wait)[0];
 }
 
@@ -116,10 +176,14 @@ const reminders = [
 const reminderStart = Date.UTC(2026, 10, 23);
 let displayedReminderDay;
 
-function updateReminder(now) {
+function localCalendarDay(now) {
   const parts = reminderDateFormat.formatToParts(now);
   const part = (type) => Number(parts.find((value) => value.type === type).value);
-  const day = Math.round((Date.UTC(part("year"), part("month") - 1, part("day")) - reminderStart) / 86400000);
+  return Date.UTC(part("year"), part("month") - 1, part("day"));
+}
+
+function updateReminder(calendarDay) {
+  const day = (calendarDay - reminderStart) / dayMilliseconds;
   if (day === displayedReminderDay) return;
   displayedReminderDay = day;
 
@@ -136,7 +200,9 @@ function updateReminder(now) {
 
 function updateDisplay() {
   const now = new Date();
-  updateReminder(now);
+  const calendarDay = localCalendarDay(now);
+  updateReminder(calendarDay);
+  updatePrayerDays(calendarDay);
   const parts = clockFormat.formatToParts(now);
   const timePart = (type) => Number(parts.find((part) => part.type === type).value);
   const hour = timePart("hour");
@@ -153,14 +219,14 @@ function updateDisplay() {
   byId("hijri-date").textContent = hijriFormat.format(now);
   document.documentElement.dataset.phase = phaseForHour(hour);
 
-  const next = nextIqamah(schedule ? schedule.prayers : [], seconds);
+  const next = nextIqamah(todayPrayers, tomorrowPrayers, seconds);
   for (const [name, card] of cards) {
-    if (next && !next.tomorrow && name === next.name) card.setAttribute("aria-current", "true");
+    if (next && !next.tomorrow && name === (next.name === "Jumu’ah" ? "Dhuhr" : next.name)) card.setAttribute("aria-current", "true");
     else card.removeAttribute("aria-current");
   }
   byId("next-prayer").textContent = next ? next.name : "Schedule pending";
   byId("next-prayer-ar").hidden = !next;
-  byId("next-prayer-ar").textContent = next ? prayerNames[next.name] : "";
+  byId("next-prayer-ar").textContent = next ? (next.name === "Jumu’ah" ? "الْجُمُعَةُ" : prayerNames[next.name]) : "";
   byId("countdown").textContent = next
     ? (next.tomorrow ? "Tomorrow · " : "") + Math.floor(next.wait / 3600) + ":" +
       twoDigits(Math.floor(next.wait / 60) % 60) + ":" + twoDigits(next.wait % 60)
@@ -187,15 +253,13 @@ async function loadSchedule() {
     if (!response.ok) throw new Error("Schedule request failed");
     const updated = normalizeSchedule(await response.json());
     schedule = updated;
-    for (const prayer of updated.prayers) {
-      const [adhan, iqamah] = cards.get(prayer.name).querySelectorAll("td:first-of-type, .pill");
-      adhan.textContent = formatTime(prayer.adhan);
-      iqamah.textContent = formatTime(prayer.iqamah);
-    }
+    displayedPrayerDay = undefined;
+    byId("khutbah-row").hidden = updated.friday.khutbah === null;
     byId("khutbah").textContent = formatTime(updated.friday.khutbah);
     byId("jumuah-iqamah").textContent = formatTime(updated.friday.iqamah);
     const hasTimes = updated.prayers.some((prayer) => prayer.adhan !== null || prayer.iqamah !== null);
-    setStatus(hasTimes ? "" : "Awaiting confirmed times");
+    const calculatedSunset = updated.prayers.some((prayer) => Number.isInteger(prayer.sunsetOffset) && prayer.adhan === null);
+    setStatus(calculatedSunset ? "Maghrib based on calculated Lakeland sunset" : hasTimes ? "" : "Awaiting confirmed times");
   } catch (error) {
     setStatus(schedule ? "Update unavailable · showing last loaded times" : "Schedule unavailable");
     console.error(error);
